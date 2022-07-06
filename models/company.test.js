@@ -9,6 +9,7 @@ const {
   commonAfterEach,
   commonAfterAll,
 } = require("./_testCommon");
+const { fail } = require("../helpers/fail");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);

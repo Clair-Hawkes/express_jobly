@@ -23,14 +23,9 @@ describe("sqlPartialUpdate", function () {
       }).toThrow(BadRequestError);
   });
 
-  // test("Doesn't works: dataToInput not an Obj", function () {
-  //   // given the security risk if this didn't work, checking this specifically
-  //   const token = createToken({ username: "test" });
-  //   const payload = jwt.verify(token, SECRET_KEY);
-  //   expect(payload).toEqual({
-  //     iat: expect.any(Number),
-  //     username: "test",
-  //     isAdmin: false,
-  //   });
-  // });
+  test("Doesn't work: dataToInput not an Obj", function () {
+    expect(() => {
+      sqlForPartialUpdate('Aliya',{firstName: "first_name"});
+      }).toThrow(BadRequestError);
+  });
 });
