@@ -1,0 +1,285 @@
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2022-07-06T18:43:26.416Z",
+    "__export_source": "insomnia.desktop.app:v2022.4.2",
+    "resources": [
+        {
+            "_id": "req_0bb26523900a4c48bcc5b324cc051dfa",
+            "parentId": "fld_f1f77653095040bf9db6ef14346bfd04",
+            "modified": 1657132904254,
+            "created": 1657132549141,
+            "url": "http://localhost:3001/companies",
+            "name": "Create new company",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"handle\":\"jc inc.\", \n \"name\": \"Jordan-Clair Incorporated\",\n \"description\": \"Web Services\", \n \"numEmployees\":500, \n \"logoUrl\": \"https://i.natgeofe.com/n/46b07b5e-1264-42e1-ae4b-8a021226e2d0/domestic-cat_thumb_2x3.jpg\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_3912a1f93b4649fe96774bfe542aff8a"
+                },
+                {
+                    "id": "pair_78b5e705f7244a288b09af65a9fdd4a5",
+                    "name": "authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvcmRhbiIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NTcxMzAwMzh9.6UIv80ShZAm44nTaQJHIp6Bx7cquwXZ5oasnGOQOBJ4",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1657132507410,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_f1f77653095040bf9db6ef14346bfd04",
+            "parentId": "wrk_e21c7fa08a9a4c87b05e7753242aeeb5",
+            "modified": 1657132505780,
+            "created": 1657132505780,
+            "name": "Companies Routes",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1657132505780,
+            "_type": "request_group"
+        },
+        {
+            "_id": "wrk_e21c7fa08a9a4c87b05e7753242aeeb5",
+            "parentId": null,
+            "modified": 1657126516924,
+            "created": 1657126516924,
+            "name": "Jobly",
+            "description": "",
+            "scope": "collection",
+            "_type": "workspace"
+        },
+        {
+            "_id": "req_e9b825074f23429a856283594030ec89",
+            "parentId": "fld_f1f77653095040bf9db6ef14346bfd04",
+            "modified": 1657132560861,
+            "created": 1657132507360,
+            "url": "http://localhost:3001/companies",
+            "name": "Get all companies",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [],
+            "headers": [],
+            "authentication": {},
+            "metaSortKey": -1657132507360,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_c24ffc1b392d479fb3a7a028d4a8e6d2",
+            "parentId": "fld_a65a23d00a7444ac9b1d50bca30539cc",
+            "modified": 1657132639843,
+            "created": 1657131960935,
+            "url": "http://localhost:3001/users/jordan",
+            "name": "Update email",
+            "description": "",
+            "method": "PATCH",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\"email\":\"testEmail@gmail.com\"}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "id": "pair_58117e452ef047f49be44ff3e45bbd13",
+                    "name": "authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvcmRhbiIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NTcxMzAwMzh9.6UIv80ShZAm44nTaQJHIp6Bx7cquwXZ5oasnGOQOBJ4",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_93fb36c0abbe4ff298c98bda98b37e9b"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1657130130977,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_a65a23d00a7444ac9b1d50bca30539cc",
+            "parentId": "wrk_e21c7fa08a9a4c87b05e7753242aeeb5",
+            "modified": 1657130129084,
+            "created": 1657130129084,
+            "name": "User Routes",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1657130129084,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_e0c3d966f75d41439530258dccad2988",
+            "parentId": "fld_a65a23d00a7444ac9b1d50bca30539cc",
+            "modified": 1657131989118,
+            "created": 1657130130927,
+            "url": "http://localhost:3001/users/",
+            "name": "Get all users",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [],
+            "headers": [
+                {
+                    "id": "pair_bae4451895b24896ae3c8975db3228b4",
+                    "name": "authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImpvcmRhbiIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NTcxMzAwMzh9.6UIv80ShZAm44nTaQJHIp6Bx7cquwXZ5oasnGOQOBJ4",
+                    "description": ""
+                },
+                {
+                    "id": "pair_c0a8a34d146143d48de8029ad1556257",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1657130130927,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_59e7c04a3a30497a83c0360c325199fb",
+            "parentId": "fld_ab9feb00c05643208336913146ea377c",
+            "modified": 1657132121407,
+            "created": 1657129953395,
+            "url": "http://localhost:3001/auth/register",
+            "name": "Register a user",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{ \n\t\"username\":\"jordan\", \n  \"password\":\"password\", \n\t\"firstName\":\"jordan\", \n\t\"lastName\":\"asano\", \n\t\"email\":\"asbdias@yahoo.com\" \n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_daef2207359043808eda4d326b3b4ac7"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1657130092602,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_ab9feb00c05643208336913146ea377c",
+            "parentId": "wrk_e21c7fa08a9a4c87b05e7753242aeeb5",
+            "modified": 1657130092577,
+            "created": 1657130092577,
+            "name": "Auth Routes",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1657130092577,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_76c647a34993463d983214a7ddad6686",
+            "parentId": "fld_ab9feb00c05643208336913146ea377c",
+            "modified": 1657131599075,
+            "created": 1657129364627,
+            "url": "http://localhost:3001/auth/token",
+            "name": "Get a token",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"username\":\"jordan\",\n\t\"password\":\"password\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_10bdba83ce484d6499ea29b09cea6574"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1657130092552,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "env_4e0cdc39c971de5e6f975a624d33ab247ec1cc77",
+            "parentId": "wrk_e21c7fa08a9a4c87b05e7753242aeeb5",
+            "modified": 1657126516938,
+            "created": 1657126516938,
+            "name": "Base Environment",
+            "data": {},
+            "dataPropertyOrder": null,
+            "color": null,
+            "isPrivate": false,
+            "metaSortKey": 1657126516938,
+            "_type": "environment"
+        },
+        {
+            "_id": "jar_4e0cdc39c971de5e6f975a624d33ab247ec1cc77",
+            "parentId": "wrk_e21c7fa08a9a4c87b05e7753242aeeb5",
+            "modified": 1657126516940,
+            "created": 1657126516940,
+            "name": "Default Jar",
+            "cookies": [],
+            "_type": "cookie_jar"
+        },
+        {
+            "_id": "spc_aaa32c24abe045fc87b309634cee5f99",
+            "parentId": "wrk_e21c7fa08a9a4c87b05e7753242aeeb5",
+            "modified": 1657126516934,
+            "created": 1657126516934,
+            "fileName": "Jobly",
+            "contents": "",
+            "contentType": "yaml",
+            "_type": "api_spec"
+        }
+    ]
+}
