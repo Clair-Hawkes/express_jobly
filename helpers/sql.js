@@ -1,6 +1,23 @@
 const { BadRequestError } = require("../expressError");
 
-// THIS NEEDS SOME GREAT DOCUMENTATION.
+/**
+ * Function sqlForPartialUpdate takes 2 parameters:
+ * dataToUpdate: Object -> {firstName: 'Aliya', age: 32}
+ *
+ * jsToSql: Object -> {firstName: "first_name"}
+ * The Keys = camelCase version of the Values = snake_case SQL column names
+ *
+ * jsToSql only requires values-
+ * where js camelCase must be converted to SQL snake_case.
+ *
+ * Function works to protect against SQL injection by creating string SQL comds-
+ * and an array of values to update.
+ *
+ * Returns : {
+ *            setCols: `"first_name"=$1, "age"=$2`,
+ *            values: ['Aliya', 32]
+ *           }
+ */
 
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
   const keys = Object.keys(dataToUpdate);
