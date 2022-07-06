@@ -88,6 +88,55 @@ describe("findAll", function () {
   });
 });
 
+/************************************** filterByCriteria */
+
+describe("filterByCriteria", function () {
+  test("works:", async function () {
+    let companies = await Company.findAll();
+    const query = { nameLike: 'c1', minEmployees: 1, maxEmployees: 2}
+    const filtered = Company.filterByCriteria(query, companies);
+    expect(filtered).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+    ]);
+  });
+
+  test("works without nameLike:", async function () {
+    let companies = await Company.findAll();
+    const query = { minEmployees: 1, maxEmployees: 2 }
+    const filtered = Company.filterByCriteria(query, companies);
+    expect(filtered).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      }
+    ]);
+  });
+
+  test("doesn't work if minEmployees > maxEmployees:", async function () {
+    let companies;
+    expect(() => {
+      const query = { nameLike: 'c1', minEmployees: 3, maxEmployees: 2 }
+      const filtered = Company.filterByCriteria(query, companies);
+    }).toThrow(BadRequestError);
+  });
+});
+
 /************************************** get */
 
 describe("get", function () {

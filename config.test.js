@@ -17,11 +17,11 @@ describe("config can come from env", function () {
     delete process.env.PORT;
     delete process.env.BCRYPT_WORK_FACTOR;
     delete process.env.DATABASE_URL;
+    expect(["jobly", "postgresql://jasano:foofoo@localhost/jobly"]).toContain(config.getDatabaseUri())
 
-    expect(config.getDatabaseUri()).toEqual("jobly");
     process.env.NODE_ENV = "test";
+    expect(["jobly_test", "postgresql://jasano:foofoo@localhost/jobly_test"]).toContain(config.getDatabaseUri())
 
-    expect(config.getDatabaseUri()).toEqual("jobly_test");
   });
 })
 

@@ -46,13 +46,20 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
  * - minEmployees
  * - maxEmployees
  * - nameLike (will find case-insensitive, partial matches)
- *
+ *  TODO: Was this supposed to be name or nameLike?
  * Authorization required: none
  */
 
 router.get("/", async function (req, res, next) {
   const companies = await Company.findAll();
-  return res.json({ companies });
+
+  if(Object.keys(req.query).length === 0){
+    return res.json({ companies });
+  }
+
+  const filteredCompanies = Company.filterByCriteria(req.query, companies);
+  
+  return res.json({companies: filteredCompanies});
 });
 
 /** GET /[handle]  =>  { company }
