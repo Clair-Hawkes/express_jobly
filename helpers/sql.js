@@ -1,3 +1,5 @@
+'use strict';
+
 const { BadRequestError } = require("../expressError");
 
 /**
@@ -21,7 +23,7 @@ const { BadRequestError } = require("../expressError");
 
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
 
-  if(!(typeof dataToUpdate == "object") || (Array.isArray(dataToUpdate))){
+  if (!(typeof dataToUpdate == "object") || (Array.isArray(dataToUpdate))) {
     throw new BadRequestError();
   }
 
@@ -30,7 +32,7 @@ function sqlForPartialUpdate(dataToUpdate, jsToSql) {
 
   // {firstName: 'Aliya', age: 32} => ['"first_name"=$1', '"age"=$2']
   const cols = keys.map((colName, idx) =>
-      `"${jsToSql[colName] || colName}"=$${idx + 1}`,
+    `"${jsToSql[colName] || colName}"=$${idx + 1}`,
   );
 
   return {

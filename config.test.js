@@ -1,7 +1,7 @@
 "use strict";
 
 describe("config can come from env", function () {
-  test("works", function() {
+  test("works", function () {
     process.env.SECRET_KEY = "abc";
     process.env.PORT = "5000";
     process.env.DATABASE_URL = "other";
@@ -17,11 +17,14 @@ describe("config can come from env", function () {
     delete process.env.PORT;
     delete process.env.BCRYPT_WORK_FACTOR;
     delete process.env.DATABASE_URL;
-    expect(["jobly", "postgresql://jasano:foofoo@localhost/jobly"]).toContain(config.getDatabaseUri())
+    expect(
+      ["jobly", "postgresql://jasano:foofoo@localhost/jobly"])
+      .toContain(config.getDatabaseUri());
 
     process.env.NODE_ENV = "test";
-    expect(["jobly_test", "postgresql://jasano:foofoo@localhost/jobly_test"]).toContain(config.getDatabaseUri())
+    expect(["jobly_test", "postgresql://jasano:foofoo@localhost/jobly_test"])
+      .toContain(config.getDatabaseUri());
 
   });
-})
+});
 

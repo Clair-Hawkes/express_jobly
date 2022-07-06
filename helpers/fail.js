@@ -1,6 +1,8 @@
+'use strict';
+
 const { BadRequestError } = require("../expressError");
 
-function fail(){
+function fail() {
   throw new Error('Test failed, should not have reached this code.');
 }
 

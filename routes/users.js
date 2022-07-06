@@ -31,7 +31,7 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
   const validator = jsonschema.validate(
     req.body,
     userNewSchema,
-    {required: true}
+    { required: true }
   );
   if (!validator.valid) {
     const errs = validator.errors.map(e => e.stack);
@@ -84,7 +84,7 @@ router.patch("/:username", ensureLoggedIn, async function (req, res, next) {
   const validator = jsonschema.validate(
     req.body,
     userUpdateSchema,
-    {required: true}
+    { required: true }
   );
   if (!validator.valid) {
     const errs = validator.errors.map(e => e.stack);

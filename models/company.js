@@ -35,7 +35,12 @@ class Company {
           logo_url)
            VALUES
              ($1, $2, $3, $4, $5)
-           RETURNING handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"`,
+           RETURNING
+                    handle,
+                    name,
+                    description,
+                    num_employees AS "numEmployees",
+                    logo_url AS "logoUrl"`,
       [
         handle,
         name,
@@ -101,13 +106,13 @@ class Company {
     const nameLike = query.nameLike;
     const minEmployees = query.minEmployees;
     const maxEmployees = query.maxEmployees;
-    
+
     if (minEmployees && maxEmployees) {
       if (minEmployees > maxEmployees) {
         throw new BadRequestError('minEmployees must be < maxEmployees');
       }
     }
-    
+
     if (nameLike) {
       companies = companies.filter(
         company => company.name.toLowerCase() === nameLike.toLowerCase());
@@ -151,7 +156,12 @@ class Company {
       UPDATE companies
       SET ${setCols}
         WHERE handle = ${handleVarIdx}
-        RETURNING handle, name, description, num_employees AS "numEmployees", logo_url AS "logoUrl"`;
+        RETURNING
+                handle,
+                name,
+                description,
+                num_employees AS "numEmployees",
+                logo_url AS "logoUrl"`;
     const result = await db.query(querySql, [...values, handle]);
     const company = result.rows[0];
 
