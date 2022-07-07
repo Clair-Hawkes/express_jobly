@@ -12,6 +12,7 @@ const {
   commonAfterAll,
   u1Token,
 } = require("./_testCommon");
+const { BadRequestError } = require("../expressError");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -95,6 +96,61 @@ describe("GET /companies", function () {
         ],
     });
   });
+
+  test("Works for filtering query string by name", async function () {
+    const resp = await request(app).get("/companies").query({ nameLike: "C1" });
+    expect(resp.body).toEqual({
+      companies:
+        [
+          {
+            handle: "c1",
+            name: "C1",
+            description: "Desc1",
+            numEmployees: 1,
+            logoUrl: "http://c1.img",
+          }
+        ],
+    });
+  });
+
+  test("Works for filtering query string by min/max employees", async function () {
+    const resp = await request(app).get("/companies").query({ minEmployees: 1, maxEmployees: 2 });
+    expect(resp.body).toEqual({
+      companies:
+        [
+          {
+            handle: "c1",
+            name: "C1",
+            description: "Desc1",
+            numEmployees: 1,
+            logoUrl: "http://c1.img",
+          },
+          {
+            handle: "c2",
+            name: "C2",
+            description: "Desc2",
+            numEmployees: 2,
+            logoUrl: "http://c2.img",
+          },
+        ],
+    });
+  });
+
+  // test("Doesn't Work: filtering by inappropriate other filtering fields", async function () {
+  //   expect(async () => { await request(app).get("/companies").query({ description: "Desc2" }); }).toThrow(BadRequestError);
+  //   // expect(async ()=> { await request(app).get("/companies")}).toThrow(BadRequestError);
+
+  // });
+
+  test("Doesn't Work: filtering by inappropriate other filtering fields", async function () {
+      const resp = await request(app).get("/companies").query({ description: "Desc2" });
+      console.log('Response from filtering by invalid query =',resp);
+      expect(resp.statusCode).toEqual(400);
+      expect(resp.body.error.message).toEqual('\"Only nameLike\",\"minEmployees\",\"maxEmployees accepted as filters.\"');
+
+  });
+
+
 
   test("fails: test next() handler", async function () {
     // there's no normal failure event which will cause this route to fail ---

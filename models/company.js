@@ -103,6 +103,23 @@ class Company {
    *  Returns filtered companies array.
    */
   static filterByCriteria(query, companies) {
+    console.log('filterByCriteria @@@@@@@@@@@@@@@@@@@@');
+    // const keys from query
+    // Const of accepted keys
+    // functional idiom .every()
+    // If !everyKey is contained within [accepted keys] then were good throw an error
+
+    const acceptedQueries = ["nameLike","minEmployees","maxEmployees"];
+    const keysInQueryString = Object.keys(query);
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$ query = ",query);
+    console.log('.every = ',!keysInQueryString.every(key => acceptedQueries.includes(key)));
+
+    if(!keysInQueryString.every(key => acceptedQueries.includes(key))){
+      console.log('We entered our throw. &&&&&&&&&&&&&&&&&&&&&&&');
+      throw new BadRequestError('"Only nameLike","minEmployees","maxEmployees accepted as filters."');
+    }
+
+
     const nameLike = query.nameLike;
     const minEmployees = query.minEmployees;
     const maxEmployees = query.maxEmployees;
