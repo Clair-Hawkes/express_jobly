@@ -102,59 +102,6 @@ class Company {
    *  Filters by nameLike, minEmployees, maxEmployees if applicable.
    *  Returns filtered companies array.
    */
-
-  /**
-   * $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ CHANGE LOG
-   * 1. Removing companies paranmeter.
-   * 2. Commented out company filtering if statements.
-   * 3. Frankenstein's SQL Query:
-   * 3a. SELECT handle,
-                name,
-                description,
-                num_employees AS "numEmployees",
-                logo_url AS "logoUrl"
-           FROM companies
-           ORDER BY name
-
-    3b. SELECT handle,
-                name,
-                description,
-                num_employees AS "numEmployees",
-                logo_url AS "logoUrl"
-           FROM companies
-           WHERE handle = $1
-    3c. SELECT handle,
-                name,
-                description,
-                num_employees AS "numEmployees",
-                logo_url AS "logoUrl"
-           FROM companies
-           WHERE handle = $1
-           ORDER BY name
-    3d. Add in Generic 3 query filters
-    3e. SELECT handle,
-                name,
-                description,
-                num_employees AS "numEmployees",
-                logo_url AS "logoUrl"
-           FROM companies
-           WHERE
-                name ILIKE TODO:,
-                minEmployees <= num_employees,
-                maxEmployees >= num_employees
-           ORDER BY name
-    3f. Add in the SQL Injection protection array.
-    3g. SELECT handle,
-                name,
-                description,
-                num_employees AS "numEmployees",
-                logo_url AS "logoUrl"
-           FROM companies
-           WHERE
-                ${joined string of filters}
-           ORDER BY name
-   */
-
   static async filterByCriteria(query) {
     const acceptedQueries = ["nameLike", "minEmployees", "maxEmployees"];
     const keysInQueryString = Object.keys(query);
@@ -165,16 +112,16 @@ class Company {
       );
     }
 
-    const { minEmployees, maxEmployees} = query;
+    const { minEmployees, maxEmployees } = query;
 
-    const {setCols, values} = sqlForFilteringCompanies(query);
+    const { setCols, values } = sqlForFilteringCompanies(query);
 
     if (minEmployees !== undefined && maxEmployees !== undefined) {
       if (minEmployees > maxEmployees) {
         throw new BadRequestError('minEmployees must be < maxEmployees');
       }
     }
-    
+
     const sqlForFiltering = `
   SELECT handle,
               name,
@@ -185,7 +132,7 @@ class Company {
          WHERE ${setCols}
          ORDER BY name;
   `;
-  
+
     const result = await db.query(sqlForFiltering, values);
     const companies = result.rows;
 
