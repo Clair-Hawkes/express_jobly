@@ -93,7 +93,7 @@ describe("findAll", function () {
 describe("filterByCriteria", function () {
   test("works:", async function () {
     let companies = await Company.findAll();
-    const query = { nameLike: 'c1', minEmployees: 1, maxEmployees: 2 };
+    const query = { nameLike: 'c1', minEmployees: 0, maxEmployees: 2 };
     const filtered = Company.filterByCriteria(query, companies);
     expect(filtered).toEqual([
       {
@@ -132,6 +132,14 @@ describe("filterByCriteria", function () {
     let companies;
     expect(() => {
       const query = { nameLike: 'c1', minEmployees: 3, maxEmployees: 2 };
+      const filtered = Company.filterByCriteria(query, companies);
+    }).toThrow(BadRequestError);
+  });
+
+  test("doesn't work: other invalid query param provided", async function () {
+    let companies;
+    expect(() => {
+      const query = { description: 'badparam' };
       const filtered = Company.filterByCriteria(query, companies);
     }).toThrow(BadRequestError);
   });

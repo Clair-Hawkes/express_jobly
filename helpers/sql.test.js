@@ -8,7 +8,6 @@ const { sqlForPartialUpdate } = require("./sql");
 const { SECRET_KEY } = require("../config");
 const { BadRequestError } = require("../expressError");
 
-// TODO: Write Unit tests Not integration tests.
 
 describe("sqlPartialUpdate", function () {
   test("works", function () {

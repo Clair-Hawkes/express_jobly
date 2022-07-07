@@ -136,21 +136,27 @@ describe("GET /companies", function () {
     });
   });
 
-  // test("Doesn't Work: filtering by inappropriate other filtering fields", async function () {
-  //   expect(async () => { await request(app).get("/companies").query({ description: "Desc2" }); }).toThrow(BadRequestError);
-  //   // expect(async ()=> { await request(app).get("/companies")}).toThrow(BadRequestError);
-
-  // });
-
-  test("Doesn't Work: filtering by inappropriate other filtering fields", async function () {
-      const resp = await request(app).get("/companies").query({ description: "Desc2" });
-      console.log('Response from filtering by invalid query =',resp);
+  test("Doesn't Work: filtering by inappropriate other filtering fields",
+    async function () {
+      const resp = await request(app)
+        .get("/companies")
+        .query({ description: "Desc2" });
       expect(resp.statusCode).toEqual(400);
-      expect(resp.body.error.message).toEqual('\"Only nameLike\",\"minEmployees\",\"maxEmployees accepted as filters.\"');
+      expect(resp.body.error.message)
+        .toEqual('Only nameLike, minEmployees, maxEmployees allowed.');
 
-  });
+    });
 
+  test("Doesn't Work: filtering by minEmployees thats > maxEmployees",
+    async function () {
+      const resp = await request(app)
+        .get("/companies")
+        .query({ minEmployees: 2, maxEmployees: 1 });
+      expect(resp.statusCode).toEqual(400);
+      expect(resp.body.error.message).
+        toEqual("minEmployees must be < maxEmployees");
 
+    });
 
   test("fails: test next() handler", async function () {
     // there's no normal failure event which will cause this route to fail ---
