@@ -92,9 +92,8 @@ describe("findAll", function () {
 
 describe("filterByCriteria", function () {
   test("works:", async function () {
-    let companies = await Company.findAll();
     const query = { nameLike: 'c1', minEmployees: 0, maxEmployees: 2 };
-    const filtered = Company.filterByCriteria(query, companies);
+    const filtered = await Company.filterByCriteria(query);
     expect(filtered).toEqual([
       {
         handle: "c1",
@@ -106,10 +105,31 @@ describe("filterByCriteria", function () {
     ]);
   });
 
+  test("works with partial name:", async function () {
+    const query = { nameLike: 'c', minEmployees: 0, maxEmployees: 2 };
+    const filtered = await Company.filterByCriteria(query);
+    expect(filtered).toEqual([
+      {
+        handle: "c1",
+        name: "C1",
+        description: "Desc1",
+        numEmployees: 1,
+        logoUrl: "http://c1.img",
+      },
+      {
+        handle: "c2",
+        name: "C2",
+        description: "Desc2",
+        numEmployees: 2,
+        logoUrl: "http://c2.img",
+      },
+    ]);
+  });
+
+
   test("works without nameLike:", async function () {
-    let companies = await Company.findAll();
     const query = { minEmployees: 1, maxEmployees: 2 };
-    const filtered = Company.filterByCriteria(query, companies);
+    const filtered = await Company.filterByCriteria(query);
     expect(filtered).toEqual([
       {
         handle: "c1",
@@ -129,19 +149,23 @@ describe("filterByCriteria", function () {
   });
 
   test("doesn't work if minEmployees > maxEmployees:", async function () {
-    let companies;
-    expect(() => {
+    try {
       const query = { nameLike: 'c1', minEmployees: 3, maxEmployees: 2 };
-      const filtered = Company.filterByCriteria(query, companies);
-    }).toThrow(BadRequestError);
+      await Company.filterByCriteria(query);
+      fail();
+    } catch (err) {
+      expect(err instanceof BadRequestError).toBeTruthy();
+    }
   });
 
   test("doesn't work: other invalid query param provided", async function () {
-    let companies;
-    expect(() => {
+    try {
       const query = { description: 'badparam' };
-      const filtered = Company.filterByCriteria(query, companies);
-    }).toThrow(BadRequestError);
+      await Company.filterByCriteria(query);
+      fail();
+    } catch (err) {
+      expect(err instanceof BadRequestError).toBeTruthy();
+    }
   });
 });
 

@@ -30,12 +30,14 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
     companyNewSchema,
     { required: true }
   );
+
   if (!validator.valid) {
     const errs = validator.errors.map(e => e.stack);
     throw new BadRequestError(errs);
   }
 
   const company = await Company.create(req.body);
+
   return res.status(201).json({ company });
 });
 
@@ -51,15 +53,14 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
  */
 
 router.get("/", async function (req, res, next) {
-  const companies = await Company.findAll();
-
   if ((Object.keys(req.query)).length === 0) {
+    const companies = await Company.findAll();
     return res.json({ companies });
   }
 
-  const filteredCompanies = Company.filterByCriteria(req.query, companies);
+  const companies = await Company.filterByCriteria(req.query);
 
-  return res.json({ companies: filteredCompanies });
+  return res.json({ companies });
 });
 
 /** GET /[handle]  =>  { company }

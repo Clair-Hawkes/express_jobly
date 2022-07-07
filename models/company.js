@@ -2,7 +2,7 @@
 
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
-const { sqlForPartialUpdate } = require("../helpers/sql");
+const { sqlForPartialUpdate, sqlForFilteringCompanies } = require("../helpers/sql");
 
 /** Related functions for companies. */
 
@@ -155,11 +155,9 @@ class Company {
            ORDER BY name
    */
 
-  static filterByCriteria(query) {
+  static async filterByCriteria(query) {
     const acceptedQueries = ["nameLike", "minEmployees", "maxEmployees"];
     const keysInQueryString = Object.keys(query);
-    // Array [minEmployees,namelike]
-
 
     if (!keysInQueryString.every(key => acceptedQueries.includes(key))) {
       throw new BadRequestError(
@@ -167,72 +165,31 @@ class Company {
       );
     }
 
-    const nameLike = query.nameLike;
-    const minEmployees = query.minEmployees;
-    const maxEmployees = query.maxEmployees;
+    const { minEmployees, maxEmployees} = query;
 
-    let sqlToFilter = [];
-    let filterValues = [];
+    const {sqlToFilter, filterValues} = sqlForFilteringCompanies(query);
 
-    if (parseInt(minEmployees) && parseInt(maxEmployees)) {
+    if (minEmployees !== undefined && maxEmployees !== undefined) {
       if (minEmployees > maxEmployees) {
         throw new BadRequestError('minEmployees must be < maxEmployees');
       }
     }
-    // TODO: Convert to SQL query of database
 
-    if (nameLike){
-      let nameFilter = `name ILIKE $${keysInQueryString.indexOf("nameLike")+1}`;
-      sqlToFilter.push(nameFilter);
-
-      filterValues.push(nameLike);
-
-    }
-    if (minEmployees){
-      let minEmpFilter = `num_employees >= $${keysInQueryString.indexOf(minEmployees)+1}`;
-      sqlToFilter.push(minEmpFilter);
-    }
-    if (maxEmployees){
-      let maxEmpFilter = `num_employees <= $${keysInQueryString.indexOf(maxEmployees)+1}`;
-      sqlToFilter.push(maxEmpFilter);
-    }
-
-    sqlToFilter = sqlToFilter.join(',');
-
+    
+    
     const sqlForFiltering = `
-    SELECT handle,
-                name,
-                description,
-                num_employees AS "numEmployees",
-                logo_url AS "logoUrl"
-           FROM companies
-           WHERE ${sqlToFilter}
-           ORDER BY name
-    `;
-
-    // TODO: Need the [values] to inject into the SQL.
-
-    //
-
-
-
-
-
-
-    // if (nameLike) {
-    //   companies = companies.filter(
-    //     company => company.name.toLowerCase() === nameLike.toLowerCase());
-    // }
-
-    // if (minEmployees) {
-    //   companies = companies.filter(
-    //     company => company.numEmployees >= minEmployees);
-    // }
-
-    // if (maxEmployees) {
-    //   companies = companies.filter(
-    //     company => company.numEmployees <= maxEmployees);
-    // }
+  SELECT handle,
+              name,
+              description,
+              num_employees AS "numEmployees",
+              logo_url AS "logoUrl"
+         FROM companies
+         WHERE ${sqlToFilter}
+         ORDER BY name;
+  `;
+    
+    const result = await db.query(sqlForFiltering, filterValues);
+    const companies = result.rows;
 
     return companies;
   }

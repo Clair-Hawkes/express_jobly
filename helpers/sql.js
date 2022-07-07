@@ -41,5 +41,32 @@ function sqlForPartialUpdate(dataToUpdate, jsToSql) {
   };
 }
 
+function sqlForFilteringCompanies(query) {
+  const keysInQueryString = Object.keys(query);
+  const { nameLike, minEmployees, maxEmployees } = query;
 
-module.exports = { sqlForPartialUpdate };
+  let sqlToFilter = [];
+  let filterValues = keysInQueryString.map(key => query[key]);
+
+  if (nameLike !== undefined) {
+    let nameFilter = `name ILIKE 
+        '%' || $${keysInQueryString.indexOf("nameLike") + 1} || '%'`;
+    sqlToFilter.push(nameFilter);
+  }
+  if (minEmployees !== undefined) {
+    let minEmpFilter = `num_employees >= 
+        $${keysInQueryString.indexOf("minEmployees") + 1}`;
+    sqlToFilter.push(minEmpFilter);
+  }
+  if (maxEmployees !== undefined) {
+    let maxEmpFilter = `num_employees <= 
+        $${keysInQueryString.indexOf("maxEmployees") + 1}`;
+    sqlToFilter.push(maxEmpFilter);
+  }
+
+  sqlToFilter = sqlToFilter.join(' AND ');
+
+  return { setCols: sqlToFilter, values: filterValues };
+}
+
+module.exports = { sqlForPartialUpdate, sqlForFilteringCompanies };
