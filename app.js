@@ -20,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT);
+// app.user("/companies/delete", checkIfAdmin)
 
 app.use("/auth", authRoutes);
 app.use("/companies", companiesRoutes);

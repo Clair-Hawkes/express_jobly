@@ -167,15 +167,13 @@ class Company {
 
     const { minEmployees, maxEmployees} = query;
 
-    const {sqlToFilter, filterValues} = sqlForFilteringCompanies(query);
+    const {setCols, values} = sqlForFilteringCompanies(query);
 
     if (minEmployees !== undefined && maxEmployees !== undefined) {
       if (minEmployees > maxEmployees) {
         throw new BadRequestError('minEmployees must be < maxEmployees');
       }
     }
-
-    
     
     const sqlForFiltering = `
   SELECT handle,
@@ -184,11 +182,11 @@ class Company {
               num_employees AS "numEmployees",
               logo_url AS "logoUrl"
          FROM companies
-         WHERE ${sqlToFilter}
+         WHERE ${setCols}
          ORDER BY name;
   `;
-    
-    const result = await db.query(sqlForFiltering, filterValues);
+  
+    const result = await db.query(sqlForFiltering, values);
     const companies = result.rows;
 
     return companies;

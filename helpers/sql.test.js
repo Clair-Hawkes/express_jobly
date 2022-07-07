@@ -39,23 +39,9 @@ describe("sqlForFilteringCompanies", function () {
       minEmployees: '1', 
       maxEmployees: '2' 
     });
-    // expect(result).toContain({
-    //   setCols: `name ILIKE '%' || $1 || '%' AND num_employees >= $2 AND num_employees <= $3`, 
-    //   values: ['c', '1', '2']
-    // });
-    expect(`name ILIKE '%' || $1 || '%'`).toContain(result.setCols)
-  });
 
-
-  test("Doesn't work: Empty dataToInput {}", function () {
-    expect(() => {
-      sqlForFilteringCompanies({}, {});
-    }).toThrow(BadRequestError);
-  });
-
-  test("Doesn't work: dataToInput not an Obj", function () {
-    expect(() => {
-      sqlForFilteringCompanies('c', { nameLike: 'c' });
-    }).toThrow(BadRequestError);
+    expect(result.setCols).toContain("name ILIKE");
+    expect(result.setCols).toContain("num_employees");
+    expect(result.setCols).toContain("$3");
   });
 });
