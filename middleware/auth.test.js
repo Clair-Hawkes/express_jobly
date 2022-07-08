@@ -100,7 +100,7 @@ describe("ensureAdmin", function () {
     ensureAdmin(req, res, next);
   });
 });
-
+// TODO: Valid user thats not admin is rejected from protected routes.
 describe("ensureAdminOrUser", function () {
   test("Works: A non admin that has same username as in params", function () {
     expect.assertions(1);

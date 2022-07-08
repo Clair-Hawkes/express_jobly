@@ -30,7 +30,7 @@ const router = express.Router();
  *
  * Authorization required: login, admin
  **/
-
+// TODO: Rmv ensureLoggedIn, ensureAdmin covers
 router.post("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
   const validator = jsonschema.validate(
     req.body,
@@ -86,7 +86,7 @@ router.get("/:username",
  *
  * Authorization required: login, admin/same user
  **/
-
+// TODO:Rmv ensureLoggedIn, ensureAdminOrUser covers
 router.patch("/:username",
   ensureLoggedIn,
   ensureAdminOrUser,
@@ -110,7 +110,7 @@ router.patch("/:username",
  *
  * Authorization required: login, admin/same user
  **/
-
+// TODO:Rmv ensureLoggedIn, ensureAdminOrUser covers
 router.delete("/:username",
   ensureLoggedIn,
   ensureAdminOrUser,

@@ -23,7 +23,7 @@ const router = new express.Router();
  *
  * Authorization required: login, admin
  */
-
+// TODO: Remove ensureLoggedIn ensureAdmin covers.
 router.post("/", ensureLoggedIn, ensureAdmin, async function (req, res, next) {
   const validator = jsonschema.validate(
     req.body,
@@ -86,10 +86,10 @@ router.get("/:handle", async function (req, res, next) {
  *
  * Authorization required: login, admin
  */
-
-router.patch("/:handle", 
-  ensureLoggedIn, 
-  ensureAdmin, 
+// TODO: Remove ensureLoggedIn
+router.patch("/:handle",
+  ensureLoggedIn,
+  ensureAdmin,
   async function (req, res, next) {
     const validator = jsonschema.validate(
       req.body,
@@ -109,10 +109,10 @@ router.patch("/:handle",
  *
  * Authorization: login, admin
  */
-
-router.delete("/:handle", 
+// TODO: Rmv ensureLoggedIn
+router.delete("/:handle",
   ensureLoggedIn,
-  ensureAdmin, 
+  ensureAdmin,
   async function (req, res, next) {
     await Company.remove(req.params.handle);
     return res.json({ deleted: req.params.handle });

@@ -314,7 +314,12 @@ describe("DELETE /users/:username", function () {
       .set("authorization", `Bearer ${u1Token}`);
     expect(resp.body).toEqual({ deleted: "u1" });
   });
-
+  test("works for admin on a different user", async function () {
+    const resp = await request(app)
+      .delete(`/users/u1`)
+      .set("authorization", `Bearer ${adminToken}`);
+    expect(resp.body).toEqual({ deleted: "u1" });
+  });
   test("Doesn't work for non admin, different user", async function () {
     const resp = await request(app)
       .delete(`/users/u2`)
