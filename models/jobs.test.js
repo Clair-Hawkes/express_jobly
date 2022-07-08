@@ -204,6 +204,7 @@ describe("update", function () {
     let job = await Job.update(testJobId, updateData);
     expect(job).toEqual({
       id: testJobId,
+      companyHandle: 'c1',
       ...updateData,
     });
 
@@ -212,6 +213,7 @@ describe("update", function () {
            FROM jobs
            WHERE id = ${testJobId}`);
     expect(result.rows).toEqual([{
+      id:testJobId,
       title: "NewTitle",
       salary: 9999,
       equity: '0.99',
@@ -224,11 +226,10 @@ describe("update", function () {
       title: "NewTitle",
       salary: null,
       equity: null,
-      company_handle: 'c1',
     };
 
-    let job = await Job.update("c1", updateDataSetNulls);
-    expect(company).toEqual(updateDataSetNulls);
+    let job = await Job.update(testJobId, updateDataSetNulls);
+    expect(company).toEqual({updateDataSetNulls});
 
     const result = await db.query(
       `SELECT title, salary, equity, company_handle,
