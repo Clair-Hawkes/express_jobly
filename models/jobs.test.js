@@ -24,6 +24,8 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
+// TODO: Tests/ Jobs static methods camelCase vs snake_case inconsistent
+
 /************************************** create */
 
 describe("create", function () {
@@ -42,6 +44,7 @@ describe("create", function () {
 
   test("works", async function () {
     let job = await Job.create(newJob);
+    // TODO: Fix toEqual looking for camelCase companyHandle
     expect(job).toEqual(newJob);
 
     const result = await db.query(
@@ -53,7 +56,7 @@ describe("create", function () {
         title: "new",
         salary: 1000,
         equity: '0.01',
-        company_handle: "c1",
+        companyHandle: "c1",
       }
     ]);
   });
