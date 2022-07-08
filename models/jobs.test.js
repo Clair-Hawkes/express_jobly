@@ -30,13 +30,13 @@ describe("create", function () {
   const newJob = {
     title: "new",
     salary: 1000,
-    equity: .01,
+    equity: '0.01',
     company_handle: "c1",
   };
   const jobNegetiveSalary = {
     title: "new",
     salary: -1000,
-    equity: .01,
+    equity: '0.01',
     company_handle: "c1",
   };
 
@@ -52,7 +52,7 @@ describe("create", function () {
       {
         title: "new",
         salary: 1000,
-        equity: .01,
+        equity: '0.01',
         company_handle: "c1",
       }
     ]);
@@ -77,19 +77,19 @@ describe("findAll jobs", function () {
       {
         title: "new",
         salary: 1000,
-        equity: .01,
+        equity: '0.01',
         company_handle: "c1",
       },
       {
         title: "new2",
         salary: 2000,
-        equity: .02,
+        equity: '0.02',
         company_handle: "c2",
       },
       {
         title: "new3",
         salary: 3000,
-        equity: .03,
+        equity: '0.03',
         company_handle: "c3",
       }
     ]);
@@ -106,7 +106,7 @@ describe("filterByCriteria", function () {
       {
         title: "new2",
         salary: 2000,
-        equity: .02,
+        equity: '0.02',
         company_handle: "c2",
       }
     ]);
@@ -119,19 +119,19 @@ describe("filterByCriteria", function () {
       {
         title: "new",
         salary: 1000,
-        equity: .01,
+        equity: '0.01',
         company_handle: "c1",
       },
       {
         title: "new2",
         salary: 2000,
-        equity: .02,
+        equity: '0.02',
         company_handle: "c2",
       },
       {
         title: "new3",
         salary: 3000,
-        equity: .03,
+        equity: '0.03',
         company_handle: "c3",
       }
     ]);
@@ -145,13 +145,13 @@ describe("filterByCriteria", function () {
       {
         title: "new2",
         salary: 2000,
-        equity: .02,
+        equity: '0.02',
         company_handle: "c2",
       },
       {
         title: "new3",
         salary: 3000,
-        equity: .03,
+        equity: '0.03',
         company_handle: "c3",
       }
     ]);
@@ -176,14 +176,14 @@ describe("get", function () {
     expect(job).toEqual({
       title: "new",
       salary: 1000,
-      equity: .01,
+      equity: '0.01',
       company_handle: "c1",
     });
   });
 
   test("not found if no such company", async function () {
     try {
-      await Company.get(100000000);
+      await Job.get(100000000);
       fail();
     } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
@@ -197,7 +197,7 @@ describe("update", function () {
   const updateData = {
     title: "NewTitle",
     salary: 9999,
-    equity: .99
+    equity: '0.99'
   };
 
   test("works", async function () {
@@ -214,41 +214,37 @@ describe("update", function () {
     expect(result.rows).toEqual([{
       title: "NewTitle",
       salary: 9999,
-      equity: .99,
+      equity: '0.99',
       company_handle: 'c1'
     }]);
   });
-//////////////////////////////////////////////////////// STOPPED HERE
+
   test("works: null fields", async function () {
     const updateDataSetNulls = {
-      name: "New",
-      description: "New Description",
-      numEmployees: null,
-      logoUrl: null,
+      title: "NewTitle",
+      salary: null,
+      equity: null,
+      company_handle: 'c1',
     };
 
-    let company = await Company.update("c1", updateDataSetNulls);
-    expect(company).toEqual({
-      handle: "c1",
-      ...updateDataSetNulls,
-    });
+    let job = await Job.update("c1", updateDataSetNulls);
+    expect(company).toEqual(updateDataSetNulls);
 
     const result = await db.query(
-      `SELECT handle, name, description, num_employees, logo_url
-           FROM companies
-           WHERE handle = 'c1'`);
+      `SELECT title, salary, equity, company_handle,
+           FROM jobs
+           WHERE id = ${testJobId}`);
     expect(result.rows).toEqual([{
-      handle: "c1",
-      name: "New",
-      description: "New Description",
-      num_employees: null,
-      logo_url: null,
+      title: "NewTitle",
+      salary: null,
+      equity: null,
+      company_handle: 'c1',
     }]);
   });
 
   test("not found if no such company", async function () {
     try {
-      await Company.update("nope", updateData);
+      await Job.update("nope", updateData);
       fail();
     } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
@@ -257,7 +253,7 @@ describe("update", function () {
 
   test("bad request with no data", async function () {
     try {
-      await Company.update("c1", {});
+      await Job.update(testJobId, {});
       fail();
     } catch (err) {
       expect(err instanceof BadRequestError).toBeTruthy();
@@ -269,15 +265,15 @@ describe("update", function () {
 
 describe("remove", function () {
   test("works", async function () {
-    await Company.remove("c1");
+    await Job.remove(testJobId);
     const res = await db.query(
-      "SELECT handle FROM companies WHERE handle='c1'");
+      `SELECT id FROM jobs WHERE id=${testJobId}`);
     expect(res.rows.length).toEqual(0);
   });
 
   test("not found if no such company", async function () {
     try {
-      await Company.remove("nope");
+      await Job.remove("nope");
       fail();
     } catch (err) {
       expect(err instanceof NotFoundError).toBeTruthy();
